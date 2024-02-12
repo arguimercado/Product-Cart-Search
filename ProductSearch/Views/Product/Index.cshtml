@@ -1,0 +1,116 @@
+﻿
+@using Core.Models
+@model TransactionModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" action="~/Product/">
+            <div class="row">
+                <label class="col-md-3">Product Search</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" name="Search" />
+                </div>
+                <button type="submit" class="col-md-2 btn btn-primary ml-2">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-12">
+        <form class="row p-3" action="/Product/Add">
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-3">Product Id</label>
+                    <div class="col-md-9">
+                        <input type="text" name="Id" class="form-control" />
+
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">Cost</label>
+                    <div class="" col-md-9">
+                        <input type="text" name="Cost"  class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-3">Product Name</label>
+                    <div class="col-md-9">
+                        <input type="text" name="Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">Quantity</label>
+                    <div class="col-md-6"> 
+                        <input type="text" name="Quantity" class="form-control" />
+
+                    </div>
+                    <div class="col-md-3"><button type="submit">Add To Cart</button></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-12">   
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product Id</th>
+                    <th>Product Name</th>
+                    <th>Cost</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var product in @Model.Carts)
+                {
+                    <tr>
+                        <td>@product.Product.Id.ToString()</td>
+                        <td>@product.Product.Name</td>
+                        <td>@product.Product.Cost.ToString()</td>
+                        <td>@product.Quantity.ToString()</td>
+                        <td>@product.TotalAmount.ToString()</td>
+                        <td>
+                            <form method="post" action="Product/Delete">
+                                <input type="hidden" name="Id" value="@product.Id" />
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <form method="post" action="~/Product/">
+            <div class="col-md-4 offset-8">
+                <div>
+                    <label>Total Amount</label>
+                    <label>@Model.Carts.Sum(p => p.TotalAmount).ToString()</label>
+                </div>
+                <div>
+                    <label>Cash</label>
+                    <div>
+                        <input type="text" name="Payment" value="@Model.Payment" class="form-control"  />
+                    </div>
+                </div>
+                <div>
+                    <label>Change</label>
+                    <label>@Model.Change.ToString()</label>
+                    <button class="save" id="save" type="submit">Save</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+
